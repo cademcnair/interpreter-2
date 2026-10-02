@@ -1,0 +1,34 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:\\cpp\\ucrt64\\bin\\g++"
+        },
+        {
+            "name": "Mac",
+            "includePath": [
+                "c:/Users/1937900/Desktop/interpreter-2/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "mergeConfigurations": false,
+            "recursiveIncludes": {},
+            "compilerPath": "/usr/bin/g++",
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}
