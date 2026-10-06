@@ -3,6 +3,8 @@
 #include <string>
 #include "logs.h"
 #include "types/box.h"
+#include "types/lexer.h"
+#include "lexer/describer.h"
 #include "lexer/lexer.h"
 
 using namespace std;
@@ -27,6 +29,8 @@ int main(int argc, char *argv[]) {
   }
   __logs << "Read file" << endl;
 
-  Lexer::lex(lines);
+  Lang::Enviromental::Enviroment box;
+
+  Lexer::lex(box, lines);
 
 }
