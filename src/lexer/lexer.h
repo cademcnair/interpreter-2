@@ -6,7 +6,7 @@
 using namespace std;
 
 namespace Lexer {
-  void lex(Lang::Enviromental::Enviroment box, vector<string> lines) {
+  vector<Lang::Lexer::Token> *lex(Lang::Enviromental::Enviroment box, vector<string> lines) {
     __logs << "Lexing " << lines.size() << " line(s)" << endl;
     
     vector<Lang::Lexer::Token> *tokens = new vector<Lang::Lexer::Token>();
@@ -29,9 +29,10 @@ namespace Lexer {
         } else curr_type = new char((*key).second);
         
         if (*in_string) {
-          if (*curr_type == 'g' && *curr == *original_string_entrance_character) {
+          if (*curr_type == 'g' && *curr == *original_string_entrance_character && *prev != '\\') {
             *building_token += *curr;
-            tokens->push_back(Lexer::describe());
+            tokens->push_back(Lexer::describe(
+              *building_token, *building_token_type, ii, i));
             building_token->clear();
 
             *in_string = false;
@@ -41,23 +42,57 @@ namespace Lexer {
           } else {
             *building_token += *curr;
           }
-          // don't worry about *curr_type == 'f' || *curr_type == 'e' BECAUSE
-          // it's OK to treat it like normal, as it's not
-          // important if the new line token looks like ";;" or "\t\t\t  "
-          // as the line will be broken anyways
-
-        } else if (*curr_type == 'e') {
-          if (*prev_type == 'e') {
-            delete curr_type; continue;
-          } else {
-            tokens->push_back(Lexer::describe());
-            *building_token_type = '-';
+        // don't worry about *curr_type == 'f' || *curr_type == 'e' BECAUSE
+        // it's OK to treat it like normal, as it's not
+        // important if the new line token looks like ";;" or "\t\t\t  "
+        // as the line will be broken anyways
+        } else {
+          if (*prev_type == '-') {
+            building_token->push_back(*curr);
+            *building_token_type = *curr_type;
           }
-        } else if (*curr_type == 'f') {
-          delete curr_type;
-          if (building_token->size() != 0) {
-            tokens->push_back(Lexer::describe());
-            *building_token_type = '-';
+
+          if (*curr_type == *building_token_type) {
+            building_token->push_back(*curr);
+          // minus symbols
+          } else if (
+            (*curr_type == 'c' && *building_token_type == 'C') ||
+            (*curr_type == 'C' && *building_token_type == 'c')
+          ) {
+            building_token->push_back(*curr);
+            *building_token_type = 'c';
+          // negative numbers
+          } else if (
+            (*curr_type == 'a' && *building_token_type == 'C' && building_token->size() == 1)
+          ) {
+            building_token->push_back(*curr);
+            *building_token_type = 'a';
+          // starting with variable commands
+          } else if (
+            (*curr_type == 'b' && *building_token_type == 'B') ||
+            (*curr_type == 'B' && *building_token_type == 'b')
+          ) {
+            building_token->push_back(*curr);
+            *building_token_type = 'b';
+          // adding numbers to variables
+          } else if (
+            (*curr_type == 'a' && *building_token_type == 'b')
+          ) {
+            building_token->push_back(*curr);
+          } else {
+            if (*building_token_type == 'C') *building_token_type = 'c';
+            if (*building_token_type == 'B') __error("Expected variable name after variable command sequence");
+            tokens->push_back(Lexer::describe(
+              *building_token, *building_token_type, ii, i));
+            building_token->clear();
+
+            building_token->push_back(*curr);
+            *building_token_type = *curr_type;
+          }
+
+          if (*curr_type == 'g') {
+            *in_string = true;
+            *original_string_entrance_character = *curr;
           }
         }
 
@@ -67,5 +102,20 @@ namespace Lexer {
 
       }
     }
+
+    if (*building_token_type != '-') {
+      tokens->push_back(Lexer::describe(
+        *building_token, *building_token_type, lines.back().size() - 1, lines.size() - 1));
+    }
+
+    building_token->clear();
+    delete building_token;
+    delete building_token_type;
+    delete prev;
+    delete prev_type;
+    delete in_string;
+    delete original_string_entrance_character;
+
+    return tokens;
   }
 }

@@ -2,9 +2,9 @@ namespace Lang {
     namespace Lexer {
         class Token {
         public:
-            // 
-            int type;
-            
+            string content;
+            char token_type;
+            int char_pos, line_pos;
         };
     }
 }
