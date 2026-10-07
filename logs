@@ -2,3 +2,6 @@
 Reading file examples/hello-world.bailey
 Read file
 Lexing 1 line(s)
+--- LOGGING TOKENS ---
+b: pp(char pos = 16, line pos = 0)
+--- END LOGGING TOKENS

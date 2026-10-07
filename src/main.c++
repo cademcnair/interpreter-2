@@ -1,11 +1,15 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "logs.h"
+
+#include "logs/logs.h"
+
 #include "types/box.h"
 #include "types/lexer.h"
+  #include "logs/lexer.h"
+
 #include "lexer/describer.h"
-#include "lexer/lexer.h"
+  #include "lexer/lexer.h"
 
 using namespace std;
 
@@ -31,6 +35,6 @@ int main(int argc, char *argv[]) {
 
   Lang::Enviromental::Enviroment box;
 
-  Lexer::lex(box, lines);
-
+  vector<Lang::Lexer::Token> *tokens = Lexer::lex(box, lines);
+  Lexer::__Logs::log_tokens(tokens, true);
 }
