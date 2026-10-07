@@ -20,7 +20,7 @@ namespace Lexer {
     vector<string>::iterator line = lines.begin();
     for (int i = 0; i < lines.size(); ++i, advance(line, 1)) {
       string::iterator curr = line->begin();
-      for (int ii = 0; ii < lines.size(); ++ii, advance(curr, 1)) {
+      for (int ii = 0; ii < line->size(); ++ii, advance(curr, 1)) {
         unordered_map<char, char>::iterator key = box.lexer__token_types.find(*curr);
         char *curr_type;
         if (key == box.lexer__token_types.end()) {
@@ -47,12 +47,12 @@ namespace Lexer {
         // important if the new line token looks like ";;" or "\t\t\t  "
         // as the line will be broken anyways
         } else {
+          // nothing previously
           if (*prev_type == '-') {
             building_token->push_back(*curr);
             *building_token_type = *curr_type;
-          }
-
-          if (*curr_type == *building_token_type) {
+          // continuing the block (unless it's a special operator)
+          } else if (*curr_type != 'd' && *curr_type == *building_token_type) {
             building_token->push_back(*curr);
           // minus symbols
           } else if (
@@ -80,8 +80,6 @@ namespace Lexer {
           ) {
             building_token->push_back(*curr);
           } else {
-            if (*building_token_type == 'C') *building_token_type = 'c';
-            if (*building_token_type == 'B') __error("Expected variable name after variable command sequence");
             tokens->push_back(Lexer::describe(
               *building_token, *building_token_type, ii, i));
             building_token->clear();

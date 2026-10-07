@@ -15,7 +15,7 @@
         {
             "name": "Mac",
             "includePath": [
-                "c:/Users/1937900/Desktop/interpreter-2/**"
+                "/Users/27cadem/Desktop/@bailey/interpreter@3/**"
             ],
             "defines": [
                 "_DEBUG",

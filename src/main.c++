@@ -28,6 +28,7 @@ int main(int argc, char *argv[]) {
         line.erase(line.begin());
       } else break;
     }
+    line += '\n';
     lines.push_back(line);
     line = "";
   }
