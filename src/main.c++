@@ -4,9 +4,10 @@
 
 #include "logs/logs.h"
 
-#include "types/box.h"
-#include "types/lexer.h"
-  #include "logs/lexer.h"
+#include "types/value.h"
+  #include "types/box.h"
+  #include "types/lexer.h"
+    #include "logs/lexer.h"
 
 #include "lexer/describer.h"
   #include "lexer/lexer.h"

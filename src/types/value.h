@@ -8,12 +8,12 @@ typedef long double ld;
 
 namespace Lang {
   namespace Values {
-    class Null {};
     // @brief 0 - ld, 1 - string, 2 - bool
     typedef variant<ld, string, bool> FundamentalValue;
-    typedef void SimpleValue; /* temp */
     // @brief 0 - FundamentalValue, 1 - Null, 2 - unordered map, 3 - unordered set
-    typedef variant<FundamentalValue, Null, unordered_map<string, SimpleValue>, unordered_set<SimpleValue>> SimpleValue;
+    struct SimpleValue;
+    using __SimpleValue = variant<FundamentalValue*, nullptr_t, unordered_map<string, SimpleValue*>*, unordered_set<SimpleValue*>*>;
+    struct SimpleValue { __SimpleValue *v; };
 
     class Block {
     };
