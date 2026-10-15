@@ -1,1 +1,1 @@
-print(("hi, mom!"), 1, false)
+print(("hi, mom!"), 1, false, #end, @@class)

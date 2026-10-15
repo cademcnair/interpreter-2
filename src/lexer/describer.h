@@ -11,7 +11,30 @@ namespace Lexer {
             } else if (token == "false") {
                 to_return.fv = new Lang::Values::FundamentalValue(false);
                 to_return.token_type = 'B';
+            } else if (token == "#end") {
+                to_return.vtp = new Lang::Lexer::VariableTokenProfile();
+                to_return.vtp->block_level = 1;
+                to_return.vtp->is_special = true;
+                to_return.vtp->is_end = true;
             } else {
+                string::iterator token_it = token.begin();
+                if ((*token_it) == '@') {
+                    to_return.vtp = new Lang::Lexer::VariableTokenProfile();
+                    to_return.vtp->class_level = 1;
+                    to_return.vtp->is_special = true;
+                    advance(token_it, 1);
+                    if ((*token_it) == '@') {
+                        ++(to_return.vtp->class_level);
+                    }
+                } else if ((*token_it) == '#') {
+                    to_return.vtp = new Lang::Lexer::VariableTokenProfile();
+                    to_return.vtp->block_level = 1;
+                    to_return.vtp->is_special = true;
+                    advance(token_it, 1);
+                    if ((*token_it) == '#') {
+                        ++(to_return.vtp->block_level);
+                    }
+                }
                 to_return.token_type = 'b';
             }
         } else to_return.token_type = token_type;
