@@ -4,17 +4,23 @@ using namespace std;
 
 namespace Lexer {
   namespace __Logs {
-    void log_tokens(vector<Lang::Lexer::Token> *tokens, bool contain_pos = false) {
+    void log_tokens(vector<Lang::Lexer::Token*> *tokens, bool contain_pos = false) {
       __logs << "--- LOGGING TOKENS ---" << endl;
       __logs << "a - number;\nb - variable name;\nB - boolean\nc - operator;\nd - special operator;\ne - seperators;\nf - break lines;\ng - string characters;\n" << endl;
+      int len = to_string(tokens->size()).size();
       for (int i = 0; i < tokens->size(); ++i) {
-        Lang::Lexer::Token token = tokens->at(i);
-        __logs << token.token_type << ": \"" << (token.content == "\n" ? "\\n" : token.content) << "\"";
+        Lang::Lexer::Token token = *(tokens->at(i));
+        int len_diff = len - (to_string(i).size());
+        for (int ii = 0; ii < len_diff; ++ii) __logs << " ";
+        __logs << i << ", " << token.token_type << ": \"" << (token.content == "\n" ? "\\n" : token.content) << "\"";
         if (contain_pos) __logs << " (char pos = " << token.char_pos << ", line pos = " << token.line_pos << ")";
         if (token.token_type == 'a') __logs << " (value = " << get<ld>(*(token.fv)) << ")";
         if (token.token_type == 'B') __logs << " (value = " << (get<bool>(*(token.fv)) ? "true" : "false") << ")";
         if (token.token_type == 'g') __logs << " (value = \"" << get<string>(*(token.fv)) << "\")";
         if (token.token_type == 'b' && token.vtp != 0x0) {
+          if (token.vtp->block_level > 0)
+            if (token.next_block_position != 0x0)
+            __logs << " (next_pos = " << (*(token.next_block_position)) << ")";
           __logs << " (vtp = ";
           __logs << "is_special:" << token.vtp->is_special << ", ";
           __logs << "is_end:" << token.vtp->is_end << ", ";

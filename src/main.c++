@@ -37,6 +37,6 @@ int main(int argc, char *argv[]) {
 
   Lang::Enviromental::Enviroment box;
 
-  vector<Lang::Lexer::Token> *tokens = Lexer::lex(box, lines);
+  vector<Lang::Lexer::Token*> *tokens = Lexer::lex(box, lines);
   Lexer::__Logs::log_tokens(tokens, true);
 }

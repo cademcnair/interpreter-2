@@ -25,6 +25,7 @@ namespace Lang {
             int char_pos, line_pos;
             Lang::Values::FundamentalValue *fv;
             VariableTokenProfile *vtp;
+            int *next_block_position;
         };
     }
 }

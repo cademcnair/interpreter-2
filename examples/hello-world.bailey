@@ -1,1 +1,5 @@
-print(("hi, mom!"), 1, false, #end, @@class)
+#if false
+    print("You will never see this")
+#else
+    print("Hello, World!")
+#end
