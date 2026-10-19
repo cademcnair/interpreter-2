@@ -3,3 +3,7 @@
 #else
     print("Hello, World!")
 #end
+
+#if true
+    print("You will see this")
+#end
