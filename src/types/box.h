@@ -29,6 +29,11 @@ namespace Lang {
         {'\'', 'g'}, {'\"', 'g'}, {'`', 'g'}
       };
     };
+    class DataSpace {
+    public:
+      unordered_map<string, Lang::Values::Value> local_values;
+      unordered_map<string, Lang::Values::Value> global_values;
+    };
   }
 }
 

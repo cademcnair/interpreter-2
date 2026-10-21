@@ -14,15 +14,10 @@ namespace Lang {
     struct SimpleValue;
     using __SimpleValue = variant<FundamentalValue*, nullptr_t, unordered_map<string, SimpleValue*>*, unordered_set<SimpleValue*>*>;
     struct SimpleValue { __SimpleValue *v; };
+    // @brief a - block, b - class, c - function;
+    struct ComplexValue { __SimpleValue *v; char type; };
 
-    class Block {
-    };
-    class Function {
-    };
-    class Class {
-    };
-
-    // @brief 0 - SimpleValue, 1 - Block, 2 - Function, 3 - Class
-    typedef variant<SimpleValue, Block, Function, Class> Value;
+    // @brief 0 - SimpleValue, 1 - ComplexValue
+    typedef variant<SimpleValue, ComplexValue> Value;
   }
 }

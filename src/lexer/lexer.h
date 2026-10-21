@@ -6,7 +6,7 @@
 using namespace std;
 
 namespace Lexer {
-  vector<Lang::Lexer::Token*> *lex(Lang::Enviromental::Enviroment box, vector<string> lines) {
+  vector<Lang::Lexer::Token*> *lex(Lang::Enviromental::Enviroment *box, vector<string> lines) {
     __logs << "Lexing " << lines.size() << " line(s)" << endl;
 
     vector<Lang::Lexer::Token*> *tokens = new vector<Lang::Lexer::Token*>();
@@ -23,9 +23,9 @@ namespace Lexer {
       string::iterator curr = line->begin();
       for (int ii = 0; ii < line->size(); ++ii, advance(curr, 1)) {
         __logs << "Lexing '" << *curr << "'" << endl;
-        unordered_map<char, char>::iterator key = box.lexer__token_types.find(*curr);
+        unordered_map<char, char>::iterator key = box->lexer__token_types.find(*curr);
         char *curr_type;
-        if (key == box.lexer__token_types.end()) {
+        if (key == box->lexer__token_types.end()) {
           if (*in_string) curr_type = new char('-');
           else __error("illegal character");
         } else curr_type = new char((*key).second);

@@ -1,9 +1,1 @@
-#if false
-    print("You will never see this")
-#else
-    print("Hello, World!")
-#end
-
-#if true
-    print("You will see this")
-#end
+print("Hello, World!")
