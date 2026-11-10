@@ -110,12 +110,14 @@ namespace Lexer {
             if ((*last)->vtp != 0x0) {
               if ((*last)->vtp->block_level > 0) {
                 __logs << "Adding block loopback" << endl;
-                if (last_block != 0x0)
-                  if (last_block->next_block_position == 0x0)
-                    last_block->next_block_position = new int(tokens->size());
-                last_block = *(last);
-                if (last_block->vtp->is_end) last_block = 0x0;
-                __logs << "Added block loopback" << endl;
+                if (!((*last)->vtp->is_export || (*last)->vtp->is_import || (*last)->vtp->is_return)) {
+                  if (last_block != 0x0)
+                    if (last_block->next_block_position == 0x0)
+                      last_block->next_block_position = new int(tokens->size());
+                  last_block = *(last);
+                  if (last_block->vtp->is_end) last_block = 0x0;
+                  __logs << "Added block loopback" << endl;
+                }
               }
             }
           }

@@ -4,6 +4,9 @@ namespace Lang {
         public:
             bool is_special = false;
             bool is_end = false;
+            bool is_return = false;
+            bool is_import = false;
+            bool is_export = false;
             int block_level = 0;
             int class_level = 0;
         };
@@ -20,6 +23,7 @@ namespace Lang {
                     e - seperators;
                     f - break lines;
                     g - string;
+                    h - function indsides;
                 */
             char token_type;
             int char_pos, line_pos;

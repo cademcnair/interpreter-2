@@ -17,6 +17,24 @@ namespace Lexer {
                 to_return->vtp->is_special = true;
                 to_return->vtp->is_end = true;
                 to_return->token_type = 'b';
+            } else if (token == "#return" ) {
+                to_return->vtp = new Lang::Lexer::VariableTokenProfile();
+                to_return->vtp->block_level = 1;
+                to_return->vtp->is_special = true;
+                to_return->vtp->is_return = true;
+                to_return->token_type = 'b';                
+            } else if (token == "#import") {
+                to_return->vtp = new Lang::Lexer::VariableTokenProfile();
+                to_return->vtp->block_level = 1;
+                to_return->vtp->is_special = true;
+                to_return->vtp->is_import = true;
+                to_return->token_type = 'b';
+            } else if (token == "#export") {
+                to_return->vtp = new Lang::Lexer::VariableTokenProfile();
+                to_return->vtp->block_level = 1;
+                to_return->vtp->is_special = true;
+                to_return->vtp->is_export = true;
+                to_return->token_type = 'b';
             } else {
                 string::iterator token_it = token.begin();
                 if ((*token_it) == '@') {

@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
   }
   __logs << "Read file" << endl;
 
-  Lang::Enviromental::Enviroment box;
+  Lang::Enviromental::Enviroment *box = new Lang::Enviromental::Enviroment();
 
   vector<Lang::Lexer::Token*> *tokens = Lexer::lex(box, lines);
   Lexer::__Logs::log_tokens(tokens, true);
