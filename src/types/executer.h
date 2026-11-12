@@ -1,27 +1,30 @@
 namespace Lang {
     namespace Executer {
-        // todo: consider modes and parents
         class Runtime {
         public:
             Lang::Enviromental::DataSpace *data_space;
             vector<Lang::Lexer::Token*>::iterator position;
             vector<Lang::Lexer::Token*> *tokens;
             Lang::Enviromental::Enviroment *box;
+            char *mode;
             int *curr_pos;
             Lang::Lexer::Token *curr;
             Lang::Lexer::Token *prev;
             vector<Runtime*> *sub_levels;
             vector<bool> *sub_levels_cleaned;
-            Runtime(Lang::Enviromental::DataSpace *ds, vector<Lang::Lexer::Token*> *tok, Lang::Enviromental::Enviroment *bx) {
+            Runtime *parent;
+            Runtime(Lang::Enviromental::DataSpace *ds, vector<Lang::Lexer::Token*> *tok, Lang::Enviromental::Enviroment *bx, Runtime *p = 0x0) {
                 data_space = ds;
                 tokens = tok;
                 box = bx;
                 position = tok->begin();
                 curr_pos = new int(0);
+                mode = new char('g');
                 sub_levels = new vector<Runtime*>();
                 if (__using_logs) {
                     sub_levels_cleaned = new vector<bool>();
                 }
+                parent = p;
             }
             ~Runtime() {
                 if (__using_logs) {
@@ -32,6 +35,7 @@ namespace Lang {
                 }
                 delete curr_pos;
                 delete sub_levels;
+                delete mode;
             }
             Runtime *using_runtime() {
                 if (sub_levels->empty()) return this;
