@@ -17,6 +17,7 @@ namespace Lexer {
     char *prev_type = new char('-');
     bool *in_string = new bool(false);
     char *original_string_entrance_character = new char('\'');
+    int *function_indention = new int(0);
 
     vector<string>::iterator line = lines.begin();
     for (int i = 0; i < lines.size(); ++i, advance(line, 1)) {
@@ -48,7 +49,31 @@ namespace Lexer {
         // it's OK to treat it like normal, as it's not
         // important if the new line token looks like ";;" or "\t\t\t  "
         // as the line will be broken anyways
+        } else if (*function_indention > 0) {
+          if (*curr_type == 'd') {
+            if (*curr == '{') ++*function_indention;
+            else if (*curr == '}') --*function_indention;
+          }
+
+          *building_token += *curr;
+          *building_token_type = 'h';
+
+          if (*function_indention == 0) {
+            tokens->push_back(describe(*building_token, *building_token_type, ii, i));
+            building_token->clear();
+            *prev = '\n'; *prev_type = '-';
+            *building_token_type = '-';
+            delete curr_type; continue;
+          }
+
         } else {
+          if (*curr_type == 'd') {
+            if (*curr == '{') {
+              ++*function_indention;
+            } else if (*curr == '}') {
+              --*function_indention;
+            }
+          }
           // nothing previously
           if (*prev_type == '-') {
             building_token->push_back(*curr);
