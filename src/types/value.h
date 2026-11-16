@@ -32,11 +32,10 @@ namespace Lang {
       }
     };
 
-
     // @brief 0 - FundamentalValue, 1 - Null, 2 - unordered map, 3 - unordered set, 4- vector, 5 - function
-    using __SimpleValue = variant<FundamentalValue*, nullptr_t, unordered_map<string, ComplexValue*>*, unordered_set<ComplexValue*>*, vector<ComplexValue*>*, FunctionValue*>;
-    struct SimpleValue { __SimpleValue *v; };
-    // @brief true - block, false - class, 0x0 - value;
-    struct ComplexValue { __SimpleValue *v; bool *type; };
+    using __SimpleValue = variant<FundamentalValue, nullptr_t, unordered_map<string, ComplexValue*>, unordered_set<ComplexValue*>, vector<ComplexValue*>, FunctionValue>;
+    struct SimpleValue { __SimpleValue v; };
+    // @brief a - block, b - class, c - value;
+    struct ComplexValue { __SimpleValue v; char type; };
   }
 }
