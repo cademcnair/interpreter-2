@@ -11,14 +11,11 @@ namespace Lang {
   namespace Values {
     // @brief 0 - ld, 1 - string, 2 - bool
     typedef variant<ld, string, bool> FundamentalValue;
-    // @brief 0 - FundamentalValue, 1 - Null, 2 - unordered map, 3 - unordered set, 4- vector
-    struct SimpleValue;
-    using __SimpleValue = variant<FundamentalValue*, nullptr_t, unordered_map<string, SimpleValue*>*, unordered_set<SimpleValue*>*, vector<SimpleValue*>*>;
-    struct SimpleValue { __SimpleValue *v; };
-    // @brief a - block, b - class, c - function;
-    struct ComplexValue { __SimpleValue *v; char type; };
+    struct SimpleValue; struct ComplexValue;
+    typedef function<ComplexValue*(vector<ComplexValue*>)> CatchAllFunction;
+    typedef function<SimpleValue*(SimpleValue*, string, SimpleValue*)> OperatorFunction;
+    typedef variant<CatchAllFunction, OperatorFunction> BuiltFunction;
 
-    typedef function<ComplexValue*(vector<ComplexValue*>)> BuiltFunction;
     class FunctionValue {
     public:
       bool *type_is_built;
@@ -35,7 +32,11 @@ namespace Lang {
       }
     };
 
-    // @brief 0 - SimpleValue, 1 - ComplexValue, 2 - FunctionValue
-    typedef variant<SimpleValue, ComplexValue, FunctionValue> Value;
+
+    // @brief 0 - FundamentalValue, 1 - Null, 2 - unordered map, 3 - unordered set, 4- vector, 5 - function
+    using __SimpleValue = variant<FundamentalValue*, nullptr_t, unordered_map<string, ComplexValue*>*, unordered_set<ComplexValue*>*, vector<ComplexValue*>*, FunctionValue*>;
+    struct SimpleValue { __SimpleValue *v; };
+    // @brief true - block, false - class, 0x0 - value;
+    struct ComplexValue { __SimpleValue *v; bool *type; };
   }
 }
