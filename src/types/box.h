@@ -31,10 +31,9 @@ namespace Lang {
     };
     class DataSpace {
     public:
-      unordered_map<string, Lang::Values::Value> local_values;
-      unordered_map<string, Lang::Values::Value> global_values;
+      unordered_map<string, Lang::Values::ComplexValue*> local_values;
+      unordered_map<string, Lang::Values::ComplexValue*> global_values;
+      unordered_set<Lang::Values::ComplexValue*> unassigned_values;
     };
   }
 }
-
-// test

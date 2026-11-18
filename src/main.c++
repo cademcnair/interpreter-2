@@ -13,6 +13,7 @@
   #include "lexer/lexer.h"
 
 #include "built/numbers.h"
+#include "built/functions.h"
 
 #include "types/executer.h"
   #include "executer/general.h"
@@ -42,6 +43,11 @@ int main(int argc, char *argv[]) {
 
   Lang::Enviromental::Enviroment *box = new Lang::Enviromental::Enviroment();
 
+  unordered_map<string, Lang::Values::ComplexValue*> global_head = {
+    {string("print"), new Lang::Values::ComplexValue(true)}
+  };
+
+  Lang::Enviromental::DataSpace *head = new Lang::Enviromental::DataSpace();
   vector<Lang::Lexer::Token*> *tokens = Lexer::lex(box, lines);
   Lexer::__Logs::log_tokens(tokens, true);
 }
