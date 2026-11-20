@@ -2,13 +2,22 @@ namespace Lang {
     namespace Lexer {
         class VariableTokenProfile {
         public:
-            bool is_special = false;
-            bool is_end = false;
-            bool is_return = false;
-            bool is_import = false;
-            bool is_export = false;
-            int block_level = 0;
-            int class_level = 0;
+            bool is_special;
+            bool is_end;
+            bool is_return;
+            bool is_import;
+            bool is_export;
+            int block_level;
+            int class_level;
+            VariableTokenProfile() {
+                block_level = 0;
+                class_level = 0;
+                is_special = false;
+                is_end = false;
+                is_return = false;
+                is_import = false;
+                is_export = false;
+            }
         };
         class Token {
         public:

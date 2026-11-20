@@ -75,6 +75,9 @@ namespace Lang {
                 if (result != tokens->end() && (*result)->token_type == 'e') return next();
                 return *result;
             }
+            bool at_end() {
+                return position == tokens->end();
+            }
         };
     }
 }

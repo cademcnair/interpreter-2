@@ -18,17 +18,11 @@ namespace Lang {
 
     class FunctionValue {
     public:
-      bool *type_is_built;
-      BuiltFunction *built;
-      FunctionValue(BuiltFunction *b) {
+      bool type_is_built;
+      BuiltFunction built;
+      FunctionValue(BuiltFunction b) {
         built = b;
-        type_is_built = new bool(true);
-      }
-      ~FunctionValue() {
-        if (*type_is_built) {
-          delete type_is_built;
-          delete built;
-        }
+        type_is_built = true;
       }
     };
 

@@ -4,6 +4,7 @@ namespace Lexer {
         if (token_type == 'B') __error("Expected variable name after variable command sequence");
         Lang::Lexer::Token *to_return = new Lang::Lexer::Token();
         to_return->content = token;
+        to_return->vtp = 0x0;
         if (token_type == 'b') {
             if (token == "true") {
                 to_return->fv = new Lang::Values::FundamentalValue(true);

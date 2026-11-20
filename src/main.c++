@@ -44,10 +44,17 @@ int main(int argc, char *argv[]) {
   Lang::Enviromental::Enviroment *box = new Lang::Enviromental::Enviroment();
 
   unordered_map<string, Lang::Values::ComplexValue*> global_head = {
-    {string("print"), new Lang::Values::ComplexValue(true)}
+    {string("print"), new Lang::Values::ComplexValue(Lang::Values::FunctionValue(Lang::Built::Functions::print))}
   };
 
   Lang::Enviromental::DataSpace *head = new Lang::Enviromental::DataSpace();
   vector<Lang::Lexer::Token*> *tokens = Lexer::lex(box, lines);
   Lexer::__Logs::log_tokens(tokens, true);
+  
+  Lang::Executer::Runtime *runtime = new Lang::Executer::Runtime(head, tokens, box);
+  while (!runtime->at_end()) {
+    if (__using_logs) Lexer::__Logs::log_token_and_message(*(runtime->position), "");
+    Executer::general(runtime);
+  }
+  
 }
